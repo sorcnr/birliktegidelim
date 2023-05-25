@@ -2,8 +2,17 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+    provider        = "prisma-client-js"
     previewFeatures = ["jsonProtocol"]
+}
+
+generator trpc {
+  provider          = "prisma-trpc-generator"
+  withZod           = true
+  withMiddleware    = false
+  withShield        = false
+  contextPath       = "../src/context"
+  trpcOptionsPath   = "../src/trpcOptions"
 }
 
 datasource db {
@@ -19,6 +28,14 @@ model Example {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+}
+
+model Works {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    carID     String
+    driverID  String
 }
 
 // Necessary for Next auth
@@ -56,6 +73,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    drivers       Driver[]
 }
 
 model VerificationToken {
@@ -64,4 +82,56 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Car {
+    id        Int       @id @default(autoincrement())
+    createdAt DateTime  @default(now())
+    brand     String
+    model     String
+    year      Int
+    color     String
+    image     String
+    available Boolean   @default(true)
+    drivers   Driver[]
+    works     Work[]
+    Expense   Expense[]
+}
+
+model Driver {
+    id        Int       @id @default(autoincrement())
+    createdAt DateTime  @default(now())
+    userId    String
+    name      String
+    age       Int
+    image     String
+    cars      Car[]
+    works     Work[]
+    Expense   Expense[]
+    users     User[]
+}
+
+model Work {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    car       Car      @relation(fields: [carId], references: [id])
+    carId     Int
+    driver    Driver   @relation(fields: [driverId], references: [id])
+    driverId  Int
+    startDate DateTime
+    endDate   DateTime
+    location  String
+    distance  Float
+    cost      Float
+}
+
+model Expense {
+    id          Int      @id @default(autoincrement())
+    createdAt   DateTime @default(now())
+    car         Car      @relation(fields: [carId], references: [id])
+    carId       Int
+    driver      Driver   @relation(fields: [driverId], references: [id])
+    driverId    Int
+    cost        Float
+    description String
 }
