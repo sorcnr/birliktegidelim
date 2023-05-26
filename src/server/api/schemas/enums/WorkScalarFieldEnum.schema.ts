@@ -8,6 +8,8 @@ export const WorkScalarFieldEnumSchema = z.enum([
   "startDate",
   "endDate",
   "location",
+  "kmInit",
+  "kmLast",
   "distance",
   "cost",
 ]);

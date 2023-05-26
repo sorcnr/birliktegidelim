@@ -12,6 +12,8 @@ const Schema: z.ZodType<Prisma.WorkCountOrderByAggregateInput> = z
     startDate: z.lazy(() => SortOrderSchema).optional(),
     endDate: z.lazy(() => SortOrderSchema).optional(),
     location: z.lazy(() => SortOrderSchema).optional(),
+    kmInit: z.lazy(() => SortOrderSchema).optional(),
+    kmLast: z.lazy(() => SortOrderSchema).optional(),
     distance: z.lazy(() => SortOrderSchema).optional(),
     cost: z.lazy(() => SortOrderSchema).optional(),
   })

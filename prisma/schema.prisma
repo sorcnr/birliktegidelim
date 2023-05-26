@@ -7,12 +7,12 @@ generator client {
 }
 
 generator trpc {
-  provider          = "prisma-trpc-generator"
-  withZod           = true
-  withMiddleware    = false
-  withShield        = false
-  contextPath       = "../src/context"
-  trpcOptionsPath   = "../src/trpcOptions"
+    provider        = "prisma-trpc-generator"
+    withZod         = true
+    withMiddleware  = false
+    withShield      = false
+    contextPath     = "../src/context"
+    trpcOptionsPath = "../src/trpcOptions"
 }
 
 datasource db {
@@ -23,10 +23,6 @@ datasource db {
     // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
     url      = env("DATABASE_URL")
 }
-
-
-
-
 
 // Necessary for Next auth
 model Account {
@@ -83,7 +79,7 @@ model Car {
     color     String
     image     String
     available Boolean   @default(true)
-    drivers   Driver[] 
+    drivers   Driver[]
     works     Work[]
     Expense   Expense[]
 }
@@ -101,6 +97,7 @@ model Driver {
     users     User[]
 }
 
+///kmInıt kmLast
 model Work {
     id        Int      @id @default(autoincrement())
     createdAt DateTime @default(now())
@@ -111,6 +108,8 @@ model Work {
     startDate DateTime
     endDate   DateTime
     location  String
+    kmInit    Float
+    kmLast    Float
     distance  Float
     cost      Float
 }

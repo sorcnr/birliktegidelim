@@ -7,6 +7,8 @@ const Schema: z.ZodType<Prisma.WorkSumAggregateInputType> = z
     id: z.literal(true).optional(),
     carId: z.literal(true).optional(),
     driverId: z.literal(true).optional(),
+    kmInit: z.literal(true).optional(),
+    kmLast: z.literal(true).optional(),
     distance: z.literal(true).optional(),
     cost: z.literal(true).optional(),
   })

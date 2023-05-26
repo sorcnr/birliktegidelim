@@ -10,6 +10,8 @@ const Schema: z.ZodType<Prisma.WorkCreateInput> = z
     startDate: z.coerce.date(),
     endDate: z.coerce.date(),
     location: z.string(),
+    kmInit: z.number(),
+    kmLast: z.number(),
     distance: z.number(),
     cost: z.number(),
     car: z.lazy(() => CarCreateNestedOneWithoutWorksInputObjectSchema),

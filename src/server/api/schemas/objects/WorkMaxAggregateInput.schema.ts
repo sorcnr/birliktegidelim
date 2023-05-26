@@ -11,6 +11,8 @@ const Schema: z.ZodType<Prisma.WorkMaxAggregateInputType> = z
     startDate: z.literal(true).optional(),
     endDate: z.literal(true).optional(),
     location: z.literal(true).optional(),
+    kmInit: z.literal(true).optional(),
+    kmLast: z.literal(true).optional(),
     distance: z.literal(true).optional(),
     cost: z.literal(true).optional(),
   })

@@ -31,6 +31,18 @@ const Schema: z.ZodType<Prisma.WorkUpdateManyMutationInput> = z
         z.lazy(() => StringFieldUpdateOperationsInputObjectSchema),
       ])
       .optional(),
+    kmInit: z
+      .union([
+        z.number(),
+        z.lazy(() => FloatFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
+    kmLast: z
+      .union([
+        z.number(),
+        z.lazy(() => FloatFieldUpdateOperationsInputObjectSchema),
+      ])
+      .optional(),
     distance: z
       .union([
         z.number(),

@@ -47,6 +47,12 @@ const Schema: z.ZodType<Prisma.WorkWhereInput> = z
     location: z
       .union([z.lazy(() => StringFilterObjectSchema), z.string()])
       .optional(),
+    kmInit: z
+      .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
+      .optional(),
+    kmLast: z
+      .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
+      .optional(),
     distance: z
       .union([z.lazy(() => FloatFilterObjectSchema), z.number()])
       .optional(),

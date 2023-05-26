@@ -54,6 +54,12 @@ const Schema: z.ZodType<Prisma.WorkScalarWhereWithAggregatesInput> = z
     location: z
       .union([z.lazy(() => StringWithAggregatesFilterObjectSchema), z.string()])
       .optional(),
+    kmInit: z
+      .union([z.lazy(() => FloatWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
+    kmLast: z
+      .union([z.lazy(() => FloatWithAggregatesFilterObjectSchema), z.number()])
+      .optional(),
     distance: z
       .union([z.lazy(() => FloatWithAggregatesFilterObjectSchema), z.number()])
       .optional(),

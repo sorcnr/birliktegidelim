@@ -4,6 +4,7 @@ import { carsRouter } from "./routers/Car.router";
 import { driversRouter } from "./routers/Driver.router";
 //import { expensesRouter } from "./routers/Expense.router";
 import { worksRouter } from "./routers/Work.router";
+import { expensesRouter } from "./routers/Expense.router";
 
 /**
  * This is the primary router for your server.
@@ -15,7 +16,8 @@ export const appRouter = createTRPCRouter({
   car: carsRouter,
   driver: driversRouter,
   //expence: expensesRouter,
-  work: worksRouter
+  work: worksRouter,
+  expense:expensesRouter
 
 });
 
