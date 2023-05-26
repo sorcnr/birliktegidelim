@@ -1,81 +1,81 @@
 import { t, publicProcedure } from "./helpers/createRouter";
-import { WorksAggregateSchema } from "../schemas/aggregateWorks.schema";
-import { WorksCreateOneSchema } from "../schemas/createOneWorks.schema";
-import { WorksDeleteManySchema } from "../schemas/deleteManyWorks.schema";
-import { WorksDeleteOneSchema } from "../schemas/deleteOneWorks.schema";
-import { WorksFindFirstSchema } from "../schemas/findFirstWorks.schema";
-import { WorksFindManySchema } from "../schemas/findManyWorks.schema";
-import { WorksFindUniqueSchema } from "../schemas/findUniqueWorks.schema";
-import { WorksGroupBySchema } from "../schemas/groupByWorks.schema";
-import { WorksUpdateManySchema } from "../schemas/updateManyWorks.schema";
-import { WorksUpdateOneSchema } from "../schemas/updateOneWorks.schema";
-import { WorksUpsertSchema } from "../schemas/upsertOneWorks.schema";
+import { WorkAggregateSchema } from "../schemas/aggregateWork.schema";
+import { WorkCreateOneSchema } from "../schemas/createOneWork.schema";
+import { WorkDeleteManySchema } from "../schemas/deleteManyWork.schema";
+import { WorkDeleteOneSchema } from "../schemas/deleteOneWork.schema";
+import { WorkFindFirstSchema } from "../schemas/findFirstWork.schema";
+import { WorkFindManySchema } from "../schemas/findManyWork.schema";
+import { WorkFindUniqueSchema } from "../schemas/findUniqueWork.schema";
+import { WorkGroupBySchema } from "../schemas/groupByWork.schema";
+import { WorkUpdateManySchema } from "../schemas/updateManyWork.schema";
+import { WorkUpdateOneSchema } from "../schemas/updateOneWork.schema";
+import { WorkUpsertSchema } from "../schemas/upsertOneWork.schema";
 
 export const worksRouter = t.createTRPCRouter({
-  aggregateWorks: publicProcedure
-    .input(WorksAggregateSchema).query(async ({ ctx, input }) => {
-      const aggregateWorks = await ctx.prisma.works.aggregate(input);
-      return aggregateWorks;
+  aggregateWork: publicProcedure
+    .input(WorkAggregateSchema).query(async ({ ctx, input }) => {
+      const aggregateWork = await ctx.prisma.work.aggregate(input);
+      return aggregateWork;
     }),
-  createOneWorks: publicProcedure
-    .input(WorksCreateOneSchema).mutation(async ({ ctx, input }) => {
-      const createOneWorks = await ctx.prisma.works.create(input);
-      return createOneWorks;
+  createOneWork: publicProcedure
+    .input(WorkCreateOneSchema).mutation(async ({ ctx, input }) => {
+      const createOneWork = await ctx.prisma.work.create(input);
+      return createOneWork;
     }),
-  deleteManyWorks: publicProcedure
-    .input(WorksDeleteManySchema).mutation(async ({ ctx, input }) => {
-      const deleteManyWorks = await ctx.prisma.works.deleteMany(input);
-      return deleteManyWorks;
+  deleteManyWork: publicProcedure
+    .input(WorkDeleteManySchema).mutation(async ({ ctx, input }) => {
+      const deleteManyWork = await ctx.prisma.work.deleteMany(input);
+      return deleteManyWork;
     }),
-  deleteOneWorks: publicProcedure
-    .input(WorksDeleteOneSchema).mutation(async ({ ctx, input }) => {
-      const deleteOneWorks = await ctx.prisma.works.delete(input);
-      return deleteOneWorks;
+  deleteOneWork: publicProcedure
+    .input(WorkDeleteOneSchema).mutation(async ({ ctx, input }) => {
+      const deleteOneWork = await ctx.prisma.work.delete(input);
+      return deleteOneWork;
     }),
-  findFirstWorks: publicProcedure
-    .input(WorksFindFirstSchema).query(async ({ ctx, input }) => {
-      const findFirstWorks = await ctx.prisma.works.findFirst(input);
-      return findFirstWorks;
+  findFirstWork: publicProcedure
+    .input(WorkFindFirstSchema).query(async ({ ctx, input }) => {
+      const findFirstWork = await ctx.prisma.work.findFirst(input);
+      return findFirstWork;
     }),
-  findFirstWorksOrThrow: publicProcedure
-    .input(WorksFindFirstSchema).query(async ({ ctx, input }) => {
-      const findFirstWorksOrThrow = await ctx.prisma.works.findFirstOrThrow(input);
-      return findFirstWorksOrThrow;
+  findFirstWorkOrThrow: publicProcedure
+    .input(WorkFindFirstSchema).query(async ({ ctx, input }) => {
+      const findFirstWorkOrThrow = await ctx.prisma.work.findFirstOrThrow(input);
+      return findFirstWorkOrThrow;
     }),
-  findManyWorks: publicProcedure
-    .input(WorksFindManySchema).query(async ({ ctx, input }) => {
-      const findManyWorks = await ctx.prisma.works.findMany(input);
-      return findManyWorks;
+  findManyWork: publicProcedure
+    .input(WorkFindManySchema).query(async ({ ctx, input }) => {
+      const findManyWork = await ctx.prisma.work.findMany(input);
+      return findManyWork;
     }),
-  findUniqueWorks: publicProcedure
-    .input(WorksFindUniqueSchema).query(async ({ ctx, input }) => {
-      const findUniqueWorks = await ctx.prisma.works.findUnique(input);
-      return findUniqueWorks;
+  findUniqueWork: publicProcedure
+    .input(WorkFindUniqueSchema).query(async ({ ctx, input }) => {
+      const findUniqueWork = await ctx.prisma.work.findUnique(input);
+      return findUniqueWork;
     }),
-  findUniqueWorksOrThrow: publicProcedure
-    .input(WorksFindUniqueSchema).query(async ({ ctx, input }) => {
-      const findUniqueWorksOrThrow = await ctx.prisma.works.findUniqueOrThrow(input);
-      return findUniqueWorksOrThrow;
+  findUniqueWorkOrThrow: publicProcedure
+    .input(WorkFindUniqueSchema).query(async ({ ctx, input }) => {
+      const findUniqueWorkOrThrow = await ctx.prisma.work.findUniqueOrThrow(input);
+      return findUniqueWorkOrThrow;
     }),
-  groupByWorks: publicProcedure
-    .input(WorksGroupBySchema).query(async ({ ctx, input }) => {
-      const groupByWorks = await ctx.prisma.works.groupBy({ where: input.where, orderBy: input.orderBy, by: input.by, having: input.having, take: input.take, skip: input.skip });
-      return groupByWorks;
+  groupByWork: publicProcedure
+    .input(WorkGroupBySchema).query(async ({ ctx, input }) => {
+      const groupByWork = await ctx.prisma.work.groupBy({ where: input.where, orderBy: input.orderBy, by: input.by, having: input.having, take: input.take, skip: input.skip });
+      return groupByWork;
     }),
-  updateManyWorks: publicProcedure
-    .input(WorksUpdateManySchema).mutation(async ({ ctx, input }) => {
-      const updateManyWorks = await ctx.prisma.works.updateMany(input);
-      return updateManyWorks;
+  updateManyWork: publicProcedure
+    .input(WorkUpdateManySchema).mutation(async ({ ctx, input }) => {
+      const updateManyWork = await ctx.prisma.work.updateMany(input);
+      return updateManyWork;
     }),
-  updateOneWorks: publicProcedure
-    .input(WorksUpdateOneSchema).mutation(async ({ ctx, input }) => {
-      const updateOneWorks = await ctx.prisma.works.update(input);
-      return updateOneWorks;
+  updateOneWork: publicProcedure
+    .input(WorkUpdateOneSchema).mutation(async ({ ctx, input }) => {
+      const updateOneWork = await ctx.prisma.work.update(input);
+      return updateOneWork;
     }),
-  upsertOneWorks: publicProcedure
-    .input(WorksUpsertSchema).mutation(async ({ ctx, input }) => {
-      const upsertOneWorks = await ctx.prisma.works.upsert(input);
-      return upsertOneWorks;
+  upsertOneWork: publicProcedure
+    .input(WorkUpsertSchema).mutation(async ({ ctx, input }) => {
+      const upsertOneWork = await ctx.prisma.work.upsert(input);
+      return upsertOneWork;
     }),
 
 }) 

@@ -24,19 +24,9 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
 
-model Works {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    carID     String
-    driverID  String
-}
+
+
 
 // Necessary for Next auth
 model Account {
@@ -93,7 +83,7 @@ model Car {
     color     String
     image     String
     available Boolean   @default(true)
-    drivers   Driver[]
+    drivers   Driver[] 
     works     Work[]
     Expense   Expense[]
 }
