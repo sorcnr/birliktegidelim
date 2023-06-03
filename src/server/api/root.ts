@@ -3,7 +3,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 import { carsRouter } from "./routers/Car.router";
 import { driversRouter } from "./routers/Driver.router";
 //import { expensesRouter } from "./routers/Expense.router";
-import { worksRouter } from "./routers/Work.router";
+import { workRouter } from "./routers/Work.router";
 import { expensesRouter } from "./routers/Expense.router";
 
 /**
@@ -13,11 +13,11 @@ import { expensesRouter } from "./routers/Expense.router";
  */
 export const appRouter = createTRPCRouter({
   //example: exampleRouter,
-  car: carsRouter,
-  driver: driversRouter,
+  //car: carsRouter,
+  //driver: driversRouter,
   //expence: expensesRouter,
-  work: worksRouter,
-  expense:expensesRouter
+  work: workRouter,
+  //expense:expensesRouter
 
 });
 

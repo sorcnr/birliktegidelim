@@ -6,17 +6,8 @@ generator client {
     previewFeatures = ["jsonProtocol"]
 }
 
-generator trpc {
-    provider        = "prisma-trpc-generator"
-    withZod         = true
-    withMiddleware  = false
-    withShield      = false
-    contextPath     = "../src/context"
-    trpcOptionsPath = "../src/trpcOptions"
-}
-
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using mysql or sqlserver, uncomment the @db.Text annotations in model Account below
     // Further reading:
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -31,12 +22,12 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? // @db.Text
-    access_token      String? // @db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? // @db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -73,44 +64,47 @@ model VerificationToken {
 model Car {
     id        Int       @id @default(autoincrement())
     createdAt DateTime  @default(now())
-    brand     String
+    brand     String //Plaka olarak kullan
     model     String
     year      Int
     color     String
-    image     String
+    image     String?
     available Boolean   @default(true)
     drivers   Driver[]
     works     Work[]
     Expense   Expense[]
+    stops     Stop[]
 }
 
 model Driver {
-    id        Int       @id @default(autoincrement())
-    createdAt DateTime  @default(now())
-    userId    String
-    name      String
-    age       Int
-    image     String
-    cars      Car[]
-    works     Work[]
-    Expense   Expense[]
-    users     User[]
+    id         Int       @id @default(autoincrement())
+    createdAt  DateTime  @default(now())
+    userId     String
+    name       String
+    age        Int
+    percentage Float     @default(0.3)
+    image      String?
+    cars       Car[]
+    works      Work[]
+    Expense    Expense[]
+    users      User[]
+    stops      Stop[]
 }
 
 ///kmInıt kmLast
 model Work {
-    id        Int      @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    car       Car      @relation(fields: [carId], references: [id])
+    id        Int       @id @default(autoincrement())
+    createdAt DateTime  @default(now())
+    car       Car       @relation(fields: [carId], references: [id])
     carId     Int
-    driver    Driver   @relation(fields: [driverId], references: [id])
+    driver    Driver    @relation(fields: [driverId], references: [id])
     driverId  Int
-    startDate DateTime
-    endDate   DateTime
-    location  String
+    startDate DateTime?
+    endDate   DateTime?
+    location  String?
     kmInit    Float
     kmLast    Float
-    distance  Float
+    distance  Float?
     cost      Float
 }
 
@@ -122,5 +116,32 @@ model Expense {
     driver      Driver   @relation(fields: [driverId], references: [id])
     driverId    Int
     cost        Float
+    description String
+}
+
+model Stop {
+    id        Int      @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    car       Car      @relation(fields: [carId], references: [id])
+    carId     Int
+    driver    Driver   @relation(fields: [driverId], references: [id])
+    driverId  Int
+}
+
+//günlük olarak hakedişler hesaplanıp kasa hesabına yazılacak
+model Cash {
+    id          Int      @id @default(autoincrement())
+    createdAt   DateTime @default(now())
+    expense     Boolean  @default(false)
+    amount      Float
+    description String
+    docURL      String?
+}
+
+model Gate {
+    id          Int      @id @default(autoincrement())
+    createdAt   DateTime @default(now())
+    expense     Boolean  @default(false)
+    amount      Float
     description String
 }

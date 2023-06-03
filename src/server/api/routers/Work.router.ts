@@ -1,81 +1,85 @@
-import { t, publicProcedure } from "./helpers/createRouter";
-import { WorkAggregateSchema } from "../schemas/aggregateWork.schema";
-import { WorkCreateOneSchema } from "../schemas/createOneWork.schema";
-import { WorkDeleteManySchema } from "../schemas/deleteManyWork.schema";
-import { WorkDeleteOneSchema } from "../schemas/deleteOneWork.schema";
-import { WorkFindFirstSchema } from "../schemas/findFirstWork.schema";
-import { WorkFindManySchema } from "../schemas/findManyWork.schema";
-import { WorkFindUniqueSchema } from "../schemas/findUniqueWork.schema";
-import { WorkGroupBySchema } from "../schemas/groupByWork.schema";
-import { WorkUpdateManySchema } from "../schemas/updateManyWork.schema";
-import { WorkUpdateOneSchema } from "../schemas/updateOneWork.schema";
-import { WorkUpsertSchema } from "../schemas/upsertOneWork.schema";
+import { z } from "zod";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
-export const worksRouter = t.createTRPCRouter({
-  aggregateWork: publicProcedure
-    .input(WorkAggregateSchema).query(async ({ ctx, input }) => {
-      const aggregateWork = await ctx.prisma.work.aggregate(input);
-      return aggregateWork;
+export const workRouter = createTRPCRouter({
+  getByDriver: publicProcedure.input(z.object({ userId: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.work.findMany(
+        {
+          where: { driverId: input.userId }
+        }
+      )
     }),
-  createOneWork: publicProcedure
-    .input(WorkCreateOneSchema).mutation(async ({ ctx, input }) => {
-      const createOneWork = await ctx.prisma.work.create(input);
-      return createOneWork;
+  getAllDrivers: publicProcedure
+    .query(({ ctx }) => {
+      return ctx.prisma.driver.findMany()
     }),
-  deleteManyWork: publicProcedure
-    .input(WorkDeleteManySchema).mutation(async ({ ctx, input }) => {
-      const deleteManyWork = await ctx.prisma.work.deleteMany(input);
-      return deleteManyWork;
+  getDriverById: publicProcedure.input(z.object({ driverId: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.driver.findFirst({
+        where: {
+          id: input.driverId
+        }
+      })
     }),
-  deleteOneWork: publicProcedure
-    .input(WorkDeleteOneSchema).mutation(async ({ ctx, input }) => {
-      const deleteOneWork = await ctx.prisma.work.delete(input);
-      return deleteOneWork;
+  getCarById: publicProcedure.input(z.object({ carId: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.car.findFirst({
+        where: { id: input.carId }
+      })
     }),
-  findFirstWork: publicProcedure
-    .input(WorkFindFirstSchema).query(async ({ ctx, input }) => {
-      const findFirstWork = await ctx.prisma.work.findFirst(input);
-      return findFirstWork;
+  getAllCars: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.car.findMany()
+  }),
+  getExpensesByDriver: publicProcedure.input(z.object({ DriverId: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.expense.findMany(
+        {
+          where: { driverId: input.DriverId }
+        }
+      )
     }),
-  findFirstWorkOrThrow: publicProcedure
-    .input(WorkFindFirstSchema).query(async ({ ctx, input }) => {
-      const findFirstWorkOrThrow = await ctx.prisma.work.findFirstOrThrow(input);
-      return findFirstWorkOrThrow;
+  //addWork: publicProcedure.input(z.object())
+  getExpensesAndWork: publicProcedure.input(z.object({ driverId: z.number() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.driver.findUnique({
+        where: { id: input.driverId },
+        include: {
+          Expense: true,
+          works: true,
+        },
+      })
     }),
-  findManyWork: publicProcedure
-    .input(WorkFindManySchema).query(async ({ ctx, input }) => {
-      const findManyWork = await ctx.prisma.work.findMany(input);
-      return findManyWork;
-    }),
-  findUniqueWork: publicProcedure
-    .input(WorkFindUniqueSchema).query(async ({ ctx, input }) => {
-      const findUniqueWork = await ctx.prisma.work.findUnique(input);
-      return findUniqueWork;
-    }),
-  findUniqueWorkOrThrow: publicProcedure
-    .input(WorkFindUniqueSchema).query(async ({ ctx, input }) => {
-      const findUniqueWorkOrThrow = await ctx.prisma.work.findUniqueOrThrow(input);
-      return findUniqueWorkOrThrow;
-    }),
-  groupByWork: publicProcedure
-    .input(WorkGroupBySchema).query(async ({ ctx, input }) => {
-      const groupByWork = await ctx.prisma.work.groupBy({ where: input.where, orderBy: input.orderBy, by: input.by, having: input.having, take: input.take, skip: input.skip });
-      return groupByWork;
-    }),
-  updateManyWork: publicProcedure
-    .input(WorkUpdateManySchema).mutation(async ({ ctx, input }) => {
-      const updateManyWork = await ctx.prisma.work.updateMany(input);
-      return updateManyWork;
-    }),
-  updateOneWork: publicProcedure
-    .input(WorkUpdateOneSchema).mutation(async ({ ctx, input }) => {
-      const updateOneWork = await ctx.prisma.work.update(input);
-      return updateOneWork;
-    }),
-  upsertOneWork: publicProcedure
-    .input(WorkUpsertSchema).mutation(async ({ ctx, input }) => {
-      const upsertOneWork = await ctx.prisma.work.upsert(input);
-      return upsertOneWork;
-    }),
+  dailyReport: publicProcedure.input(z.object({ startDate: z.date(), endDate: z.date() }))
+    .query(({ ctx, input }) => {
+      return ctx.prisma.driver.findMany({
 
-}) 
+        include: {
+          Expense: {
+            where: {
+              createdAt: {
+                gte: input.startDate,
+                lte: input.endDate,
+              }
+            }
+          },
+          works: {
+            where: {
+              createdAt: {
+                gte: input.startDate,
+                lte: input.endDate,
+              }
+            }
+          },
+          stops: {
+            where: {
+              createdAt: {
+                gte: input.startDate,
+                lte: input.endDate,
+              }
+            }
+          },
+    }})
+    }),
+}
+)
