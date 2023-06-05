@@ -79,7 +79,64 @@ export const workRouter = createTRPCRouter({
               }
             }
           },
-    }})
+        }
+      })
     }),
+  addCashRecord: publicProcedure.input(z.object({
+    createdAt: z.date(),
+    expense: z.boolean(),
+    amount: z.number(),
+    description: z.string(),
+    docURL: z.string(),
+
+  })).mutation(({ctx, input}) => {
+    return ctx.prisma.cash.create({
+      data:{
+        createdAt: input.createdAt,
+        expense: input.expense,
+        amount: input.amount,
+        description: input.description,
+        docURL: input.docURL
+
+      }
+    })
+  }),
+  getAllCashbyDate: publicProcedure.input(z.object({ startDate: z.date(), endDate: z.date() }))
+  .query(({ctx,input})=>{
+    return ctx.prisma.cash.findMany({
+      where: {
+        createdAt: {
+          gte: input.startDate,
+          lte: input.endDate,
+        }}
+    })
+  }),
+  addMultiCash: publicProcedure.input(z.array(z.object({
+    createdAt: z.date().optional(),
+    expense: z.boolean(),
+    amount: z.number(),
+    description: z.string(),
+    docURL: z.string().optional(),
+
+  }))).mutation(({ctx,input})=>{
+    return ctx.prisma.cash.createMany(
+      {
+        data: input
+      }
+    )
+  }),
+  getAllCash: publicProcedure.input(z.object({  endDate: z.date() }))
+  .query(({ctx, input})=>{
+    return ctx.prisma.cash.findMany(
+      {
+        where: {
+          createdAt: {
+            lte: input.endDate
+          }
+        }
+      }
+
+    )
+  })
 }
 )

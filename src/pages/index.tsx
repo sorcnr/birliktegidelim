@@ -20,7 +20,7 @@ const Home: NextPage = (props) => {
       <NavBar />
       <main className="flex min-w-full h-max flex-col items-center justify-start ">
       
-      <Daily></Daily>
+      
       <UploadComponent></UploadComponent>
       </main>
     </>

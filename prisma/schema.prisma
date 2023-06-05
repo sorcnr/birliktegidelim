@@ -138,10 +138,20 @@ model Cash {
     docURL      String?
 }
 
+model Place {
+    id    Int    @id @default(autoincrement())
+    name  String
+    gates Gate[]
+}
+
 model Gate {
     id          Int      @id @default(autoincrement())
     createdAt   DateTime @default(now())
     expense     Boolean  @default(false)
     amount      Float
     description String
+    
+    Place       Place?   @relation(fields: [placeId], references: [id])
+    placeId     Int?
+    
 }
