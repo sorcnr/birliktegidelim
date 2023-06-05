@@ -136,6 +136,15 @@ const ExpenseForm = () => {
     const allExpenseAmount = allRecords ?
         allRecords.filter((cash) => cash.expense)
             .reduce((total, cash) => total + cash.amount, 0) : 0;
+    const serkanCash = allRecords ? allRecords.filter(
+        (cash) =>
+            cash.description.toLowerCase().includes("serkan") ||
+            cash.description.toLowerCase().includes("sg")
+    ).reduce((total, cash) => total + cash.amount, 0): 0;
+    const volkanCash = allRecords ? allRecords.filter(
+        (cash) =>
+            cash.description.toLowerCase().includes("volkan") 
+    ).reduce((total, cash) => total + cash.amount, 0) : 0;
     return (
         <div className="flex flex-col gap-4">
             <div className="flex gap-4">
@@ -167,7 +176,14 @@ const ExpenseForm = () => {
                         currency: 'TRY',
                     })} </div>
                     <div className="stat-des">
-
+                        <p>Serkan : {serkanCash.toLocaleString('tr-TR', {
+                            style: 'currency',
+                            currency: 'TRY',
+                        })}</p>
+                        <p>Volkan : {volkanCash.toLocaleString('tr-TR', {
+                            style: 'currency',
+                            currency: 'TRY',
+                        })}</p>
                     </div>
                 </div>
             </div>
@@ -235,10 +251,10 @@ const ExpenseForm = () => {
                     </div>
                 ))}
                 <button type="button" onClick={handleAddRow} className="btn btn-info p-0 w-auto h-10 ">
-                    Add Row
+                    Satır Ekle
                 </button>
                 <br />
-                <button type="submit" className="btn btn-primary relative">Submit</button>
+                <button type="submit" className="btn btn-warning relative">Kaydet</button>
             </form>
             <table className="table table-xs w-full">
                 <thead>
